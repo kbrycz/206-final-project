@@ -1,2 +1,1 @@
-coin_list = ['bitcoin', 'ethereum', 'ripple', 'tether', 'bitcoin-cash',
-             'litecoin', 'bitcoin-cash-sv', 'eos', 'binancecoin', 'okb']
+coin_list = ['bitcoin', 'ethereum', 'ripple', 'tether', 'litecoin']

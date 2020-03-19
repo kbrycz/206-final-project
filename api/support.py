@@ -14,7 +14,7 @@ def get_last_10_days():
 
     date_list = []
 
-    NUM_DAYS = 10
+    NUM_DAYS = 20
 
     for i in range(NUM_DAYS):
         formatted_date = d.strftime('%d-%m-%Y')
