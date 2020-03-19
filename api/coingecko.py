@@ -1,11 +1,10 @@
 from pycoingecko import CoinGeckoAPI
-from newsapi import NewsApiClient
 from coinlist import coin_list
-from datetime import datetime, timedelta
-from textblob import TextBlob
+
+from news import get_sentiment
+from support import get_last_10_days
 
 cg = CoinGeckoAPI()
-newsapi = NewsApiClient(api_key='d38ea2916e134db3a2e0deeca8e71a1e')
 
 
 def get_initial_coins():
@@ -21,72 +20,15 @@ def get_initial_coins():
     return coin_list
 
 
-def get_last_10_days():
+def get_historical_data():
     '''
-    Get dates for the last 10 days, inclusive
-    '''
-    first_day = '18-03-2020'
-    d = datetime.strptime(first_day, '%d-%m-%Y')
-
-    date_list = []
-
-    NUM_DAYS = 10
-
-    for i in range(NUM_DAYS):
-        formatted_date = d.strftime('%d-%m-%Y')
-        date_list.append(formatted_date)
-        d = d - timedelta(days=1)
-
-    return date_list
-
-
-def get_sentiment(content):
-    '''
-    '''
-    content = TextBlob(content)
-    sentiment = round(content.sentiment.polarity, 2)
-
-    return sentiment
-
-
-def get_news(coin, day):
-    '''
-    Returns top headlines for given coin on given day
-
-    Also, returns sentiment score of all headlines and descriptions to determine general sentiment of a coin on a given day
-    '''
-    reformatted_date = datetime.strptime(day, '%d-%m-%Y').strftime('%Y-%m-%d')
-    top_headlines = newsapi.get_everything(q=coin,
-                                           from_param=reformatted_date,
-                                           to=reformatted_date,
-                                           language='en',
-                                           sort_by='popularity')
-
-    articles = top_headlines['articles']
-    content = ''
-
-    # Merge all headlines and descriptions together and determine sentiment based on aggregate content
-    if (len(articles) > 0):
-        for article in articles:
-            if (article.get('title') and article.get('description')):
-                content += article['title'] + " " + article['description']
-
-    sentiment = get_sentiment(content)
-
-    # If no articles for that day, assign a sentiment score of 0
-    if (len(content) == 0):
-        sentiment = 0
-
-    return sentiment
-
-
-def get_coin_data():
-    '''
-    Return current and historical market data for coins in coin_list
+    Return current and historical market (CoinGecko) / news (NewsAPI) data for coins in coin_list
     '''
     out_file = open('results.txt', 'w')
+
+    i = 1
     for coin in coin_list:
-        print(f"Fetching data for {coin}")
+        print(f"Fetching data for {coin} ({i}/{len(coin_list)})")
         out_file.write(
             f"{coin.capitalize()} historical data for past 10 days\n")
         for day in get_last_10_days():
@@ -99,16 +41,20 @@ def get_coin_data():
             total_volume = market_data['total_volume']['usd']
 
             # News Data
-            sentiment = get_news(coin, day)
+            sentiment = get_sentiment(coin, day)
 
             out_file.write(
                 f"Coin: {coin.capitalize()}, Day: {day}, Price: {price}, Market Cap: {market_cap}, Volume: {total_volume}, News Sentiment: {sentiment}\n")
-            print(f"{day} DONE")
 
-        print("\n")
         out_file.write("\n")
+        i += 1
 
     out_file.close()
 
 
-get_coin_data()
+def main():
+    get_historical_data()
+
+
+if __name__ == "__main__":
+    main()
