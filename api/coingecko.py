@@ -22,9 +22,8 @@ def get_historical_data():
 
     i = 1
     for coin in coin_list:
-        print(f"Fetching data for {coin} ({i}/{len(coin_list)})")
-        out_file.write(
-            f"{coin.capitalize()} historical data for past 10 days\n")
+        print(
+            f"Fetching 20 days worth of data for {coin} ({i}/{len(coin_list)} coins)...")
         for day in get_last_20_days(starting_day):
             res = cg.get_coin_history_by_id(coin, day)
 
