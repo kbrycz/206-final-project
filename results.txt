@@ -1,0 +1,5 @@
+Bitcoin historical data for past 10 days
+Ethereum historical data for past 10 days
+Ripple historical data for past 10 days
+Tether historical data for past 10 days
+Litecoin historical data for past 10 days

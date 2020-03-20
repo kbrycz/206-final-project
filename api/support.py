@@ -5,12 +5,11 @@ Support functions
 from datetime import datetime, timedelta
 
 
-def get_last_10_days():
+def get_last_20_days(start_day):
     '''
-    Get dates for the last 10 days, inclusive
+    Get dates for the last 20 days from start_day
     '''
-    first_day = '18-03-2020'
-    d = datetime.strptime(first_day, '%d-%m-%Y')
+    d = datetime.strptime(start_day, '%d-%m-%Y')
 
     date_list = []
 

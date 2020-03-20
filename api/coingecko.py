@@ -1,23 +1,12 @@
 from pycoingecko import CoinGeckoAPI
-from coinlist import coin_list
 
 from news import get_sentiment
-from support import get_last_10_days
+from support import get_last_20_days
+
+from db import save_to_db, setup_db
 
 cg = CoinGeckoAPI()
-
-
-def get_initial_coins():
-    '''
-    Top 10 coins by market capitalization as of 7:14pm EST, 3.18.2020
-
-    Used to seed initial coin_list
-    '''
-    coin_list = []
-    for coin in cg.get_coins_markets(vs_currency='usd')[0:10]:
-        coin_list.append(coin['id'])
-
-    return coin_list
+coin_list = ['bitcoin', 'ethereum', 'ripple', 'tether', 'litecoin']
 
 
 def get_historical_data():
@@ -26,27 +15,48 @@ def get_historical_data():
     '''
     out_file = open('results.txt', 'w')
 
+    starting_day = '18-03-2020'
+
+    # First, clear the DB
+    setup_db()
+
     i = 1
     for coin in coin_list:
         print(f"Fetching data for {coin} ({i}/{len(coin_list)})")
         out_file.write(
             f"{coin.capitalize()} historical data for past 10 days\n")
-        for day in get_last_10_days():
+        for day in get_last_20_days(starting_day):
             res = cg.get_coin_history_by_id(coin, day)
 
-            # Market Data
+            # Market Data (CoinGeckoAPI)
             market_data = res['market_data']
-            price = market_data['current_price']['usd']
-            market_cap = market_data['market_cap']['usd']
-            total_volume = market_data['total_volume']['usd']
+            price = str(round(market_data['current_price']['usd'], 2))
+            market_cap = str(round(market_data['market_cap']['usd'], 2))
+            total_volume = str(round(market_data['total_volume']['usd'], 2))
 
-            # News Data
-            sentiment = get_sentiment(coin, day)
+            # Reddit Data (CoinGeckoAPI)
+            community_data = res['community_data']
+            reddit_posts_48h = str(community_data['reddit_average_posts_48h'])
+            reddit_comments_48h = str(
+                community_data['reddit_average_comments_48h'])
 
-            out_file.write(
-                f"Coin: {coin.capitalize()}, Day: {day}, Price: {price}, Market Cap: {market_cap}, Volume: {total_volume}, News Sentiment: {sentiment}\n")
+            # News Data (NewsAPI)
+            sentiment = str(get_sentiment(coin, day))
 
-        out_file.write("\n")
+            # Save to DB
+            market_data_to_save = (day, coin, price, market_cap, total_volume)
+            reddit_data_to_save = (
+                day, coin, reddit_posts_48h, reddit_comments_48h)
+            sentiment_data_to_save = (day, coin, sentiment)
+
+            save_to_db(market_data_to_save, 'market')
+            save_to_db(reddit_data_to_save, 'reddit')
+            save_to_db(sentiment_data_to_save, 'sentiment')
+
+            # out_file.write(
+            #     f"Coin: {coin.capitalize()}, Day: {day}, Price: {price}, Market Cap: {market_cap}, Volume: {total_volume}, News Sentiment: {sentiment}\n")
+
+        # out_file.write("\n")
         i += 1
 
     out_file.close()
@@ -80,7 +90,7 @@ def get_categories_from_data():
 
     print('\n')
     print('Reddit Data')
-    for day in get_last_10_days():
+    for day in get_last_20_days():
         res = cg.get_coin_history_by_id(coin, day)
         reddit_posts = res['community_data']['reddit_average_posts_48h']
         reddit_comments = res['community_data']['reddit_average_comments_48h']
@@ -90,7 +100,7 @@ def get_categories_from_data():
 
 
 def main():
-    get_categories_from_data()
+    get_historical_data()
 
 
 if __name__ == "__main__":
