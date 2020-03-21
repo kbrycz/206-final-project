@@ -2,7 +2,7 @@ from coingecko import coin_list, cg
 from news import get_sentiment
 from db import save_to_db
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def fetch_market_data(day, coin):
@@ -36,18 +36,19 @@ def fetch_and_save_data():
     '''
     Remember: Must limit data from each API to 20 or fewer items
 
-    Populates DB with following data from current date:
+    Populates DB with following data from yesterday's date (most recent market close):
     CoinGecko API: 10 items (5 rows for market_data, 5 rows for sentiment_data)
     News API: 5 items (5 rows for sentiment_data)
     '''
-    current_date = datetime.today().strftime('%d-%m-%Y')
+    yesterdays_date = (datetime.today() - timedelta(days=1)
+                       ).strftime('%d-%m-%Y')
 
     for coin in coin_list:
         print(
-            f'Fetching {coin}\'s market, reddit and sentiment data for {current_date}')
-        market_data = fetch_market_data(current_date, coin)
-        reddit_data = fetch_reddit_data(current_date, coin)
-        sentiment_data = fetch_sentiment_data(current_date, coin)
+            f'Fetching {coin}\'s market, reddit and sentiment data for {yesterdays_date}')
+        market_data = fetch_market_data(yesterdays_date, coin)
+        reddit_data = fetch_reddit_data(yesterdays_date, coin)
+        sentiment_data = fetch_sentiment_data(yesterdays_date, coin)
 
         save_to_db(market_data, 'market')
         save_to_db(reddit_data, 'reddit')

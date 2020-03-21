@@ -1,18 +1,25 @@
 import sqlite3 as db
+import os
+
+
+source_dir = os.path.dirname(__file__)  # <-- directory name
+full_path = os.path.join(source_dir, 'scooby.db')
+conn = db.connect(full_path)
 
 
 def save_to_db(data, context):
-    conn = db.connect('/Users/rishi/SI-206/206-final-project/api/scooby.db')
     cur = conn.cursor()
 
+    date = data[0]
+    coin_name = data[1]
+
     cur.execute(
-        f'SELECT * FROM {context.capitalize()}Data WHERE day=? AND coin=?', (data[0], data[1]))
+        f'SELECT * FROM {context.capitalize()}Data WHERE day=? AND coin=?', (date, coin_name))
 
     # Reject duplicate data if data already exists for given coin on given day
     try:
         cur.fetchone()[0]
-        print(
-            f'{context.capitalize()} data already exists for {data[1]} on {data[0]}')
+        print(f'{context.capitalize()} data already exists for {coin_name} on {date}')
 
     except:
         if (context == 'market'):
@@ -34,7 +41,6 @@ def save_to_db(data, context):
 
 
 def setup_db():
-    conn = db.connect('/Users/rishi/SI-206/206-final-project/api/scooby.db')
     cur = conn.cursor()
 
     cur.execute('DROP TABLE IF EXISTS MarketData')
@@ -51,6 +57,23 @@ def setup_db():
     conn.commit()
 
     cur.close()
+
+
+def fetch_all_data():
+    cur = conn.cursor()
+
+    # Database Join for the three tables
+    cur.execute(
+        'SELECT MarketData.*, RedditData.reddit_posts_48h, RedditData.reddit_comments_48h, SentimentData.sentiment FROM MarketData INNER JOIN RedditData ON MarketData.coin=RedditData.coin AND MarketData.day=RedditData.day INNER JOIN SentimentData ON MarketData.coin=SentimentData.coin AND MarketData.day=SentimentData.day')
+
+    res_dict = {'bitcoin': [], 'litecoin': [],
+                'tether': [], 'ripple': [], 'ethereum': []}
+
+    for r in cur:
+        res_dict[r[1]].append(r)
+
+    cur.close()
+    return res_dict
 
 
 def main():
