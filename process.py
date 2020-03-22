@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def process_data(data):
-    out_file = open('process_results.txt', 'w')
+    out_file = open('output_calculations/main_calculations.txt', 'w')
     for k, v in data.items():
         sorted_data = sorted(
             v, key=lambda x: datetime.strptime(x[0], '%d-%m-%Y'), reverse=True)
