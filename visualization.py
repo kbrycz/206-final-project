@@ -271,3 +271,91 @@ fig = [trace0, trace1, trace2, trace3, trace4]
 fig = dict(data=fig, layout=layout)
 
 po.iplot(fig)
+
+# ----------Vis 4 Comments per post--------------
+
+commentsPerPost = []
+total = 0
+count = 0
+for it in data['bitcoin']:
+    posts = float(it[-3])
+    comments = float(it[-2])
+    total += (posts/ comments)
+    count += 1
+commentsPerPost.append(total / count)
+
+total = 0
+count = 0
+for it in data['ethereum']:
+    posts = float(it[-3])
+    comments = float(it[-2])
+    total += (posts/ comments)
+    count += 1
+commentsPerPost.append(total / count)
+
+total = 0
+count = 0
+for it in data['litecoin']:
+    posts = float(it[-3])
+    comments = float(it[-2])
+    total += (posts/ comments)
+    count += 1
+commentsPerPost.append(total / count)
+
+total = 0
+count = 0
+for it in data['ripple']:
+    posts = float(it[-3])
+    comments = float(it[-2])
+    total += (posts/ comments)
+    count += 1
+commentsPerPost.append(total / count)
+
+total = 0
+count = 0
+for it in data['tether']:
+    posts = float(it[-3])
+    comments = float(it[-2])
+    total += (posts/ comments)
+    count += 1
+commentsPerPost.append(total / count)
+
+trace1 = go.Bar(
+    x = coins,
+    y = commentsPerPost,
+    marker=dict(
+        color='rgb(200, 11, 25)'
+    )
+)
+d = [trace1]
+layout = go.Layout(
+    title='Average Comments per Post (28-02-2020 to 21-03-2020)',
+    xaxis=dict(
+        title='Coins',
+        titlefont=dict(
+            size=16,
+            color='rgb(17, 207, 107)'
+        ),
+        tickfont=dict(
+            size=14,
+            color='rgb(17, 207, 107)'
+        )
+    ),
+    yaxis=dict(
+        title='Comments per Post',
+        titlefont=dict(
+            size=16,
+            color='rgb(17, 207, 107)'
+        ),
+        tickfont=dict(
+            size=14,
+            color='rgb(17, 207, 107)'
+        )
+    ),
+    barmode='group',
+    bargap=0.3,
+    bargroupgap=0.3
+)
+fig = go.Figure(data=d, layout=layout)
+fig.update_layout(title_text='Average Comments per Post (28-02-2020 to 21-03-2020)', title_x=0.5)
+po.iplot(fig)
