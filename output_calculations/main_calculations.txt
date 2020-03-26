@@ -1,36 +1,36 @@
-Bitcoin statistics from 28-02-2020 to 21-03-2020
-Change in price: -29.44%
-Change in market cap: -29.42%
-Change in volume: 18.33%
-Average 48h Reddit content (posts * comments): 3081.28
+Bitcoin statistics from 28-02-2020 to 25-03-2020
+Change in price: -23.36%
+Change in market cap: -23.16%
+Change in volume: 6.51%
+Average 48h Reddit content (posts * comments): 3070.31
 Average sentiment score (1 means positive content, while -1 means negative content): 0.06
 
-Litecoin statistics from 28-02-2020 to 21-03-2020
-Change in price: -38.01%
-Change in market cap: -38.22%
-Change in volume: -33.55%
-Average 48h Reddit content (posts * comments): 6.66
+Litecoin statistics from 28-02-2020 to 25-03-2020
+Change in price: -33.75%
+Change in market cap: -33.81%
+Change in volume: -46.22%
+Average 48h Reddit content (posts * comments): 6.8
 Average sentiment score (1 means positive content, while -1 means negative content): 0.08
 
-Tether statistics from 28-02-2020 to 21-03-2020
+Tether statistics from 28-02-2020 to 25-03-2020
 Change in price: 0.0%
-Change in market cap: 1.2%
-Change in volume: 22.38%
+Change in market cap: -0.08%
+Change in volume: 0.08%
 Average 48h Reddit content (posts * comments): 0.0
-Average sentiment score (1 means positive content, while -1 means negative content): 0.11
+Average sentiment score (1 means positive content, while -1 means negative content): 0.12
 
-Ripple statistics from 28-02-2020 to 21-03-2020
+Ripple statistics from 28-02-2020 to 25-03-2020
 Change in price: -33.33%
-Change in market cap: -33.16%
-Change in volume: 5.64%
-Average 48h Reddit content (posts * comments): 15.29
+Change in market cap: -31.29%
+Change in volume: -22.84%
+Average 48h Reddit content (posts * comments): 17.51
 Average sentiment score (1 means positive content, while -1 means negative content): 0.08
 
-Ethereum statistics from 28-02-2020 to 21-03-2020
-Change in price: -41.46%
-Change in market cap: -41.91%
-Change in volume: -32.2%
-Average 48h Reddit content (posts * comments): 113.42
-Average sentiment score (1 means positive content, while -1 means negative content): 0.05
+Ethereum statistics from 28-02-2020 to 25-03-2020
+Change in price: -38.44%
+Change in market cap: -38.16%
+Change in volume: -49.49%
+Average 48h Reddit content (posts * comments): 115.1
+Average sentiment score (1 means positive content, while -1 means negative content): 0.06
 
-Coin with biggest loss: Ethereum (-41.46%)
+Coin with biggest loss: Ethereum (-38.44%)

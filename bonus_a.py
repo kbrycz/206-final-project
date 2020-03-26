@@ -23,16 +23,20 @@ def populate_historical_market_data():
     d_100 = d - timedelta(days=100)
 
     res = n.Markets.get_market_cap_history(
-        start=d_100.isoformat(),
-        end=d.isoformat()
+        start=d_100.isoformat("T")+"Z",
+        end=d.isoformat("T")+"Z"
     )
 
     res = res[::-1]
+    i = 1
 
     for r in res:
         market_cap = r['market_cap']
         time_stamp = dateutil.parser.parse(r['timestamp']).strftime('%d-%m-%Y')
         data = (time_stamp, market_cap)
+        print(
+            f"Saving total market cap data to db from {time_stamp} ({i}/100)")
+        i += 1
         save_to_db(data, 'bonus')
 
 
@@ -65,7 +69,7 @@ def calculate_and_store_data():
 
 
 def main():
-    # populate_historical_market_data()
+    populate_historical_market_data()
     calculate_and_store_data()
 
 

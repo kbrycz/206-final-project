@@ -15,9 +15,6 @@ def get_historical_data():
     '''
     starting_day = '18-03-2020'
 
-    # First, clear the DB
-    setup_db()
-
     i = 1
     for coin in coin_list:
         print(

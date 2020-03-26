@@ -37,7 +37,7 @@ def fetch_and_save_data():
     Remember: Must limit data from each API to 20 or fewer items
 
     Populates DB with following data from yesterday's date (most recent market close):
-    CoinGecko API: 10 items (5 rows for market_data, 5 rows for sentiment_data)
+    CoinGecko API: 10 items (5 rows for market_data, 5 rows for reddit_data)
     News API: 5 items (5 rows for sentiment_data)
     '''
     yesterdays_date = (datetime.today() - timedelta(days=1)
