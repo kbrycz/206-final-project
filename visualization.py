@@ -280,7 +280,8 @@ count = 0
 for it in data['bitcoin']:
     posts = float(it[-3])
     comments = float(it[-2])
-    total += (posts/ comments)
+    if comments != 0:
+        total += (comments / posts)
     count += 1
 commentsPerPost.append(total / count)
 
@@ -289,7 +290,8 @@ count = 0
 for it in data['ethereum']:
     posts = float(it[-3])
     comments = float(it[-2])
-    total += (posts/ comments)
+    if comments != 0:
+        total += (comments / posts)
     count += 1
 commentsPerPost.append(total / count)
 
@@ -298,7 +300,8 @@ count = 0
 for it in data['litecoin']:
     posts = float(it[-3])
     comments = float(it[-2])
-    total += (posts/ comments)
+    if comments != 0:
+        total += (comments / posts)
     count += 1
 commentsPerPost.append(total / count)
 
@@ -307,7 +310,8 @@ count = 0
 for it in data['ripple']:
     posts = float(it[-3])
     comments = float(it[-2])
-    total += (posts/ comments)
+    if comments != 0:
+        total += (comments / posts)
     count += 1
 commentsPerPost.append(total / count)
 
@@ -316,7 +320,8 @@ count = 0
 for it in data['tether']:
     posts = float(it[-3])
     comments = float(it[-2])
-    total += (posts/ comments)
+    if comments != 0:
+        total += (comments / posts)
     count += 1
 commentsPerPost.append(total / count)
 
@@ -334,22 +339,22 @@ layout = go.Layout(
         title='Coins',
         titlefont=dict(
             size=16,
-            color='rgb(17, 207, 107)'
+            color='rgb(225, 30, 25)'
         ),
         tickfont=dict(
             size=14,
-            color='rgb(17, 207, 107)'
+            color='rgb(225, 30, 25)'
         )
     ),
     yaxis=dict(
         title='Comments per Post',
         titlefont=dict(
             size=16,
-            color='rgb(17, 207, 107)'
+            color='rgb(225, 30, 25)'
         ),
         tickfont=dict(
             size=14,
-            color='rgb(17, 207, 107)'
+            color='rgb(225, 30, 25)'
         )
     ),
     barmode='group',
