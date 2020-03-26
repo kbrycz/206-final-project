@@ -11,7 +11,7 @@ coin_list = ['bitcoin', 'ethereum', 'ripple', 'tether', 'litecoin']
 
 def get_historical_data():
     '''
-    Return current and historical market (CoinGecko) / news (NewsAPI) data for coins in coin_list
+    Return historical market (CoinGecko) / news (NewsAPI) data for coins in coin_list
     '''
     starting_day = '18-03-2020'
 
